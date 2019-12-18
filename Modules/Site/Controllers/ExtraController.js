@@ -3,13 +3,15 @@
 // const Support = require('../../Support/Models/Support')
 const EmailAlert = require('../Models/Email')
 const User = require('../../User/Models/User')
-const SubCategory = require('../../SubCategory/Models/SubCategory')
 const Activity = require('../../../functions/activity')
-const result = {}
 class ExtraController {
 
-    static async countAllDoc(){
-        return {}
+    static async countAllDoc(req, res, next){
+        let users = await User.countDocuments();
+        let vendors = await User.find({user_type: 'vendor'}).countDocuments();
+        let clients = await User.find({user_type: 'client'}).countDocuments();
+
+        return res.status(200).json({ users, vendors, clients });
     }    
 
     static deactivateAlertEmail(req, res, next) {
