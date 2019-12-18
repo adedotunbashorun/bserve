@@ -1,6 +1,7 @@
 'use strict'
 const Job = require('../Models/Job')
 const User = require('../../User/Models/User')
+const subCategory = require('../../SubCategory/Models/SubCategory')
 const Activity = require('../../../functions/activity')
 const Pusher = require('../../../functions/pusher')
 
@@ -86,7 +87,7 @@ class JobController {
         let today = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate()
         try{
 
-            let orders = await Job.find({ $and: [{status : { $ne: 'completed'}},{ status: { $ne: 'accepted'}},{order_date: today},{vendor_id: req.params.vendor_id}]})
+            let orders = await Job.find({ $and: [{status : { $ne: 'completed'}},{ status: { $ne: 'accepted'}},{createdAt: today},{vendor_id: req.params.vendor_id}]})
             return res.status(201).json({ orders: orders })
 
         }catch(error){

@@ -10,10 +10,11 @@ let token
 
 class AuthenticationController{
 
-    static register(req, res, next) {
+    static  async register(req, res, next) {
         try {
             if (typeof req.body.password === 'undefined' || req.body.password == "")
                 return res.status(501).json({ error: "password is required" })
+            
             let user = new User()
             user.title = req.body.title
             user.user_type = (req.body.user_type) ? req.body.user_type : 'client'            
@@ -27,18 +28,15 @@ class AuthenticationController{
             user.password = User.hashPassword(req.body.password)
             user.temporarytoken = crypto.randomBytes(20).toString('hex')
             user.address = req.body.address
-            user.save(function (error) {
-                if (error) {
-                    return res.json({ error: error, msg: error.message })
-                } else {
-                    Activity.getDecode(user,req.body.address)
-                    Activity.Email(user, 'New Registration', Activity.html('<p style="color: #000">Hello ' + user.first_name + ' ' + user.last_name + ', Thank you for registering at ServeMe.<br> Please click the link below to complete registration https://servemeserviceappapi.herokuapp.com/api/activate/' + user.temporarytoken + '</p>'))
-                    Activity.Sms(user.phone, 'Hello '+ user.first_name+' this is your activation code '+user.phone_code )
-                    Activity.activity_log(req, user._id, 'Registered')                    
-                    Pusher.triggerNotification('notifications','users',{user, message: {msg: user.last_name + " Just created a new account."}},req, user._id)
-                    return res.status(201).json({ user: user.toAuthJSON(), msg: 'Registration Successful, Please activate your account by visiting your mail.' })
-                }
-            })
+            await user.save();
+
+            Activity.getDecode(user,req.body.address)
+            Activity.Email(user, 'New Registration', Activity.html('<p style="color: #000">Hello ' + user.first_name + ' ' + user.last_name + ', Thank you for registering at ServeMe.<br> Please click the link below to complete registration https://servemeserviceappapi.herokuapp.com/api/activate/' + user.temporarytoken + '</p>'))
+            Activity.Sms(user.phone, 'Hello '+ user.first_name+' this is your activation code '+user.phone_code )
+            Activity.activity_log(req, user._id, 'Registered')                    
+            Pusher.triggerNotification('notifications','users',{user, message: {msg: user.last_name + " Just created a new account."}},req, user._id)
+            return res.status(201).json({ user: user.toAuthJSON(), msg: 'Registration Successful, Please activate your account by visiting your mail.' })
+                
         } catch (error) {
             return res.json({ error: error, msg: error.message })
         }

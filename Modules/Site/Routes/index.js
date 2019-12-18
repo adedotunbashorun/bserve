@@ -78,26 +78,6 @@ router.get('/contact/all', (req, res, next) => {
     ContactController.getAll(req, res, next)
 })
 
-router.get('/schedules/:user_id', [Guard.isValidUser], (req, res, next) => {
-    ActivityController.getUserSchedule(req, res, next)
-})
-
-router.get('/schedules/total/:user_id', [Guard.isValidUser], (req, res, next) => {
-    ActivityController.getUserScheduleTotal(req, res, next)
-})
-
-router.get('/schedules/sent/:user_id', [Guard.isValidUser], (req, res, next) => {
-    ActivityController.getUserScheduleTotalSent(req, res, next)
-})
-
-router.get('/schedules/replied/:user_id', [Guard.isValidUser], (req, res, next) => {
-    ActivityController.getUserScheduleTotalReplied(req, res, next)
-})
-
-router.get('/schedules', [Guard.isValidUser], (req, res, next) => {
-    ActivityController.getAllSchedule(req, res, next)    
-})
-
 router.get('/', (req, res, next) => {
     res.send("Welcome to Beauty API visit <a href='https://qappdevtest.herokuapp.com/'>QAPP</a> for the interface.")
 })

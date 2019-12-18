@@ -18,9 +18,7 @@ class CategoryController {
             
             const category = new Category()
             category.name = req.body.name            
-            category.description = req.body.description
-            category.price = req.body.price   
-            category.estimated_time = req.body.estimated_time        
+            category.description = req.body.description     
             category.image_url = (req.body.image) ? File.Image(req.body.image,"/images/category/", req.body.name,'.png') : ''
             category.save(function (error) {
                 if (error) {

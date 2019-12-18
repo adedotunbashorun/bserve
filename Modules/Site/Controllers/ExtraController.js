@@ -8,8 +8,8 @@ const Activity = require('../../../functions/activity')
 const result = {}
 class ExtraController {
 
-    countAllDoc(){
-        return result
+    static async countAllDoc(){
+        return {}
     }    
 
     static deactivateAlertEmail(req, res, next) {

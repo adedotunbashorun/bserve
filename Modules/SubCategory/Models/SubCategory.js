@@ -4,7 +4,6 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const SubCategorySchema = new Schema({
-    // user_id: { type: Schema.ObjectId, ref: 'User', default: null },
     category_id: { type: Schema.ObjectId, ref: 'Category', default: null },
     name: {
         type: String,

@@ -8,8 +8,6 @@ const Model = require('../../../service/Model');
 const CategorySchema = new Schema({
     name: { type: String, required: true, index: { unique: true, dropDups: true } },
     description: { type: String, required: true },
-    price: { type: String, default : null },
-    estimated_time : { type: String, default: null },
     image_url:{ type: String},
     cloud_image_url: { type: String},
     deleted_at: { type: Date, default: null }
