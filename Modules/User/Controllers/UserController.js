@@ -6,7 +6,7 @@ const File = require('../../../functions/file')
 const User = require('../../User/Models/User')
 
 class UserController { 
-    static update(req, res, next) {
+    static async update(req, res, next) {
         try {
             User.findById(req.params.id, function (error, user) {
                 if (error) {
@@ -29,24 +29,18 @@ class UserController {
                     user.service_id = (req.body.service_id) ? req.body.service_id : user.service_id
                     // user.service_category_id = (req.body.service_category_id) ? req.body.service_category_id : user.service_category_id
                     user.profile_image = (req.body.profile_image) ? File.Image(req.body.profile_image,"/images/profile/", user.last_name,'.png') : ''
-                    user.save(function (error) {
-                        if (error) {
-                            Activity.activity_log(req, user._id, 'Error Updating Profile!')
-                            return res.status(501).json({ error: error, msg: error.message })
-                        } else {                    
-                            if(user.address != '' || user.address != null){        
-                                Activity.getDecode(user,user.address)
-                            }
-                            Activity.Email(user, 'Profile Update', Activity.html('<p style="color: #000">Hello ' + user.first_name + ' ' + user.last_name + ', Your profile has been updated succesfully.</p>'))
-                            Activity.activity_log(req, user._id, 'Profile Updated Successfully')
-                            user = user.toAuthJSON()                    
-                            Pusher.triggerNotification('notifications','users',{ user, message: {msg: user.last_name+" Just updated account details."}},req)
-                            return res.status(201).json({
-                                'user': user,
-                                'msg': user.first_name +
-                                    ' Profile Updated Successfully!'
-                            })
-                        }
+                    user.save()              
+                    if(user.address != '' || user.address != null){        
+                        Activity.getDecode(user,user.address)
+                    }
+                    Activity.Email(user, 'Profile Update', Activity.html('<p style="color: #000">Hello ' + user.first_name + ' ' + user.last_name + ', Your profile has been updated succesfully.</p>'))
+                    Activity.activity_log(req, user._id, 'Profile Updated Successfully')
+                    user = user.toAuthJSON()                    
+                    Pusher.triggerNotification('notifications','users',{ user, message: {msg: user.last_name+" Just updated account details."}},req, user._id)
+                    return res.status(201).json({
+                        'user': user,
+                        'msg': user.first_name +
+                            ' Profile Updated Successfully!'
                     })
                 }
 

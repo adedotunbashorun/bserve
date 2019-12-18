@@ -10,7 +10,7 @@ class JobController {
     static async create(req, res, next) {
         try {
             const sub_cat = await subCategory.findOne({ _id: req.body.service_category_id});
-            
+
             const order = new Job(req.body);
             order.estimated_time = sub_cat.estimated_time;
             order.estimated_amount = sub_cat.prependOnceListener;
@@ -22,7 +22,7 @@ class JobController {
 
             await this.orderNotification(order.client_id, 'New Order Sent',Activity.html('<p style="color: #000">Hello, \r\nYour order has been received.</p>'))
 
-            Pusher.triggerNotification('notifications','orders',{ order, message: {msg: "new order notification."}},req)
+            Pusher.triggerNotification('notifications','orders',{ order, message: {msg: "new order notification."}},req, order.client_id)
 
             Activity.activity_log(req, req.body.client_id, ' Make New  Order')
             Activity.activity_log(req, req.body.vendor_id, ' Receive New Order')
