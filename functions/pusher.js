@@ -8,14 +8,15 @@ let pusher_notifiction = new Pushers({
 let Notifications = require('../Modules/Notifications/Models/Notifications')
 class Pusher{
 
-     
     constructor(){        
         this.pushers = pusher_notifiction               
     }
 
     static triggerNotification(notifications = 'notifications', type, data,req,id) {
-        pusher_notifiction.trigger(notifications, type, data, req.headers['x-socket-id'])
-        return this.saveNotification(notifications = 'notifications', type, data,id)               
+        if(req.headers['x-socket-id']){
+            pusher_notifiction.trigger(notifications, type, data, req.headers['x-socket-id'])
+            return this.saveNotification(notifications = 'notifications', type, data,id)  
+        }             
     }
 
     static saveNotification(notifications = 'notifications', type, data,user_id){
