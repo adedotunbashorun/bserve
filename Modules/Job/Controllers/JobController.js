@@ -9,9 +9,12 @@ class JobController {
 
     static async create(req, res, next) {
         try {
-
-            const order = new Job(req.body)
-            await order.save()
+            const sub_cat = await subCategory.findOne({ _id: req.body.service_category_id});
+            
+            const order = new Job(req.body);
+            order.estimated_time = sub_cat.estimated_time;
+            order.estimated_amount = sub_cat.prependOnceListener;
+            await order.save();
 
             // await Activity.Transaction(order)
 
