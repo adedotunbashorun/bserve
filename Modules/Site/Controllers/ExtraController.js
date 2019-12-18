@@ -5,6 +5,7 @@ const EmailAlert = require('../Models/Email')
 const User = require('../../User/Models/User')
 const Order = require('../../Job/Models/Job')
 const Activity = require('../../../functions/activity')
+const ActivityLog = require('../../Site/Models/ActivityLog')
 class ExtraController {
 
     static async countAllDoc(req, res, next){
@@ -12,8 +13,8 @@ class ExtraController {
         let vendors = await User.find({user_type: 'vendor'}).countDocuments();
         let clients = await User.find({user_type: 'client'}).countDocuments();
         let orders = await Order.find().countDocuments();
-        let activities = await Activity.find({user_id: req.userId}).sort('-createdAt').populate("user_id").limit(5);
-        let user_activities = await Activity.find().sort('-createdAt').populate("user_id").limit(5);
+        let activities = await ActivityLog.find({user_id: req.userId}).sort('-createdAt').populate("user_id").limit(5);
+        let user_activities = await ActivityLog.find({}).sort('-createdAt').populate("user_id").limit(5);
         return res.status(200).json({ users, vendors, clients, orders, activities, user_activities });
     }    
 
