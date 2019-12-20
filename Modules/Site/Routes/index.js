@@ -3,6 +3,7 @@
 const express = require('express')
 const router = express.Router()
 const Guard = require('../../../Middleware/auth')
+const Activity = require('../../../functions/activity')
 const ExtraController = require('../Controllers/ExtraController')
 const ContactController = require('../Controllers/ContactController')
 const ActivityController = require('../Controllers/ActivityController')
@@ -73,6 +74,18 @@ router.get('/my_recent_activities/:user_id', [Guard.isValidUser], (req, res, nex
 router.post('/contact/create', (req, res, next) => {
     ContactController.create(req, res, next)
 })
+
+router.post('/token', (req, res) => {
+    Activity.saveToken(req.body.token.value);
+    console.log(`Received push token, ${req.body.token.value}`);
+    return res.send(`Received push token, ${req.body.token.value}`);
+});
+  
+router.post('/push_message', (req, res) => {
+    Activity.handlePushTokens(req.body.title, req.body.message, req.body.user_id);
+    console.log(`Received message, ${req.body.message}`);
+    return res.send(`Received message, ${req.body.message}`);
+});
 
 router.get('/contact/all', (req, res, next) => {
     ContactController.getAll(req, res, next)
