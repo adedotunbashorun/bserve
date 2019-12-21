@@ -5,23 +5,34 @@ const Pusher = require('../../../functions/pusher')
 const File = require('../../../functions/file')
 class SystemSettingsController {
     
-    static async create(req, res, next) {
+    static create(req, res, next) {
         try {
+            let setting = {
+                data: req.body
+            }
             if(req.body.id !== ""){
-                let settings =  await SystemSettings.findById(req.body.id)
-                settings.data = req.body
-                //settings.data.logo = (req.body.logo) ? File.Image(req.body.logo,"/images/settings/", req.body.app_name,'.png') : settings.data.logo
-                settings.save()
-                Pusher.triggerNotification('notifications','settings',{settings,message:{msg: req.user + " updated settings."}},req,req.userId)
-                return res.status(201).json({ settings: settings, msg: 'Settings Successfully updated.' })
-                    
+                SystemSettings.findOneAndUpdate({_id: req.body._id }, setting ,{upsert: true, new: true},function(error, settings) {
+                    if (error) {
+                        return res.status(401).json({ error: error, msg: error.message })
+                    } else {
+                        settings.data.logo = (req.body.logo) ? File.Image(req.body.logo,"/images/settings/", req.body.app_name,'.png') : settings.data.logo
+                        settings.save()
+                        Pusher.triggerNotification('notifications','settings',{settings,message:{msg: req.user + " updated settings."}},req,req.userId)
+                        return res.status(201).json({ settings: settings, msg: 'Settings Successfully updated.' })
+                    }
+                })
             }else{
-                let settings = new SystemSettings()
-                settings.data= req.body
-                //settings.data.image_url = (req.body.image) ? File.Image(req.body.image,"/images/class/", req.body.name,'.png') : ''
-                await settings.save()
-                Pusher.triggerNotification('notifications','settings',{settings,message:{msg: req.user+" created settings."}},req, req.userId)
-                return res.status(201).json({ settings: settings, msg: 'Settings Successfully saved.' })
+                var settings = new SystemSettings(setting)
+                // settings.data.logo = (req.body.image) ? File.Image(req.body.image,"/images/class/", req.body.name,'.png') : ''
+                // settings.save()
+                settings.save(function(error) {
+                    if (error) {
+                        return res.status(401).json({ error: error, msg: error.message })
+                    } else {
+                        Pusher.triggerNotification('notifications','settings',{settings,message:{msg: req.user+" created settings."}},req, req.userId)
+                        return res.status(201).json({ settings: settings, msg: 'Settings Successfully saved.' })
+                    }
+                })
             }
         } catch (error) {
             return res.status(422).json({ error: error, msg: error.message })
@@ -41,7 +52,7 @@ class SystemSettingsController {
 
     static async getOne(req, res, next) {
         try {
-
+            
             let settings = await SystemSettings.findById(req.params.id)
             return res.status(201).json({ settings: settings })
             
