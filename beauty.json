@@ -2,6 +2,4 @@
     "app_name": "ServeMe",
     "email": "adedotunolawale@gmail.com",
     "production": false,
-    "paystack_test_public_key": "pk_test_693bfcc6bfa11501444f28c4bc0d56932c5d69e5",
-    "paystack_test_secret_key": "sk_test_2823eff442daff63229389f7f4fc8a7a4691dabe"
 }
