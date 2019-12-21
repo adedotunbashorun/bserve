@@ -68,6 +68,7 @@ class JobController {
             
             let order = await Job.findById(req.params.id)
             order.status = req.body.status
+            order.save()
             return res.status(201).json({ order: order, msg: 'order '+req.body.status })
 
         } catch (err) {
@@ -78,7 +79,7 @@ class JobController {
     static async currentPendingOrders(){
         try{
 
-            let orders = await Job.find({ $and: [{vendor_id: req.params.vendor_id},{$or : [{status : { $ne: 'completed'}},{ status: { $ne: 'accepted'}}]}]}).sort('-createdAt');
+            let orders = await Job.find({ $and: [{vendor_id: req.params.vendor_id},{status: 'waiting' }]}).sort('-createdAt').populate('client_id').populate('vendor_id');
             return res.status(201).json({ orders: orders })
 
         }catch(error){
@@ -89,7 +90,7 @@ class JobController {
     static async currentPendingOrdersAdmin(){
         try{
 
-            let orders = await Job.find({ $or: [{status : { $ne: 'completed'}},{ status: { $ne: 'accepted'}}]}).sort('-createdAt');
+            let orders = await Job.find({ status: 'waiting'}).sort('-createdAt').populate('client_id').populate('vendor_id');
             return res.status(201).json({ orders: orders })
 
         }catch(error){
