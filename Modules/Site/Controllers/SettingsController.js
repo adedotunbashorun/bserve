@@ -17,7 +17,7 @@ class SystemSettingsController {
                     } else {
                         settings.data.logo = (req.body.logo) ? File.Image(req.body.logo,"/images/settings/", req.body.app_name,'.png') : settings.data.logo
                         settings.save()
-                        Pusher.triggerNotification('notifications','settings',{settings,message:{msg: req.user + " updated settings."}},req,req.userId)
+                        // Pusher.triggerNotification('notifications','settings',{settings,message:{msg: req.user + " updated settings."}},req,req.userId)
                         return res.status(201).json({ settings: settings, msg: 'Settings Successfully updated.' })
                     }
                 })
@@ -29,7 +29,7 @@ class SystemSettingsController {
                     if (error) {
                         return res.status(401).json({ error: error, msg: error.message })
                     } else {
-                        Pusher.triggerNotification('notifications','settings',{settings,message:{msg: req.user+" created settings."}},req, req.userId)
+                        // Pusher.triggerNotification('notifications','settings',{settings,message:{msg: req.user+" created settings."}},req, req.userId)
                         return res.status(201).json({ settings: settings, msg: 'Settings Successfully saved.' })
                     }
                 })
