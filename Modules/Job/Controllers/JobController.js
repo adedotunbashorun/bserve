@@ -47,7 +47,7 @@ class JobController {
 
     static async getAll(req, res, next) {
         try {
-            let orders = await Job.find({}, null, { sort: { 'createdAt': -1 } }).populate('client_id').populate('vendor_id')
+            let orders = await Job.find({}, null, { sort: { 'createdAt': -1 } }).populate('client_id').populate('vendor_id').populate('service_id').populate('service_category_id')
             return res.status(201).json({ orders: orders })
         } catch (err) {
             return res.status(500).json({ error: err, msg: err.message})
@@ -56,7 +56,7 @@ class JobController {
 
     static async getUserOrder(req, res, next) {
         try {
-            let orders = await Job.find({[req.params.title]: req.params.id}, null, { sort: { 'createdAt': -1 } }).populate('client_id').populate('vendor_id')
+            let orders = await Job.find({[req.params.title]: req.params.id}, null, { sort: { 'createdAt': -1 } }).populate('client_id').populate('vendor_id').populate('service_id').populate('service_category_id')
             return res.status(201).json({ orders: orders })
         } catch (err) {
             return res.status(500).json({ error: err, msg: err.message})
@@ -91,7 +91,7 @@ class JobController {
     static async currentPendingOrders(req, res, next){
         try{
 
-            let orders = await Job.find({ $and: [{vendor_id: req.params.vendor_id},{status: 'waiting' }]}).sort('-createdAt').populate('client_id').populate('vendor_id');
+            let orders = await Job.find({ $and: [{vendor_id: req.params.vendor_id},{status: 'waiting' }]}).sort('-createdAt').populate('client_id').populate('vendor_id').populate('service_id').populate('service_category_id');
             return res.status(201).json({ orders: orders })
 
         }catch(error){
@@ -102,7 +102,7 @@ class JobController {
     static async currentPendingOrdersAdmin(req, res, next){
         try{
 
-            let orders = await Job.find({ status: 'waiting'}).sort('-createdAt').populate('client_id').populate('vendor_id');
+            let orders = await Job.find({ status: 'waiting'}).sort('-createdAt').populate('client_id').populate('vendor_id').populate('service_id').populate('service_category_id');
             return res.status(201).json({ orders: orders })
 
         }catch(error){
