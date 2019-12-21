@@ -75,13 +75,13 @@ router.post('/contact/create', (req, res, next) => {
     ContactController.create(req, res, next)
 })
 
-router.post('/token', (req, res) => {
+router.post('/notifications/token', (req, res) => {
     Activity.saveToken(req.body.token.value);
     console.log(`Received push token, ${req.body.token.value}`);
     return res.send(`Received push token, ${req.body.token.value}`);
 });
   
-router.post('/push_message', (req, res) => {
+router.post('/notifications/message', (req, res) => {
     Activity.handlePushTokens(req.body.title, req.body.message, req.body.user_id);
     console.log(`Received message, ${req.body.message}`);
     return res.send(`Received message, ${req.body.message}`);
@@ -92,7 +92,7 @@ router.get('/contact/all', (req, res, next) => {
 })
 
 router.get('/', (req, res, next) => {
-    res.send("Welcome to Beauty API visit <a href='https://qappdevtest.herokuapp.com/'>QAPP</a> for the interface.")
+    res.send("Welcome to Beauty API visit <a href='https://servemeserviceapp.herokuapp.com/'>QAPP</a> for the interface.")
 })
 
 module.exports = router
