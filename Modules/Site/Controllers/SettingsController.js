@@ -10,8 +10,8 @@ class SystemSettingsController {
             let setting = {
                 data: req.body
             }
-            if(req.body.id !== ""){
-                SystemSettings.findOneAndUpdate({_id: req.body._id }, setting ,{upsert: true, new: true},function(error, settings) {
+            if(req.body.id){
+                SystemSettings.findOneAndUpdate({_id: req.body.id }, setting ,{upsert: true, new: true},function(error, settings) {
                     if (error) {
                         return res.status(401).json({ error: error, msg: error.message })
                     } else {
@@ -23,8 +23,6 @@ class SystemSettingsController {
                 })
             }else{
                 var settings = new SystemSettings(setting)
-                // settings.data.logo = (req.body.image) ? File.Image(req.body.image,"/images/class/", req.body.name,'.png') : ''
-                // settings.save()
                 settings.save(function(error) {
                     if (error) {
                         return res.status(401).json({ error: error, msg: error.message })
