@@ -21,19 +21,11 @@ router.patch('/orders/update/status/:id', [Guard.isValidUser], (req, res, next) 
     OrderController.updateOrderStatus(req, res, next)
 })
 
-router.get('/orders/uncompleted/:vendor_id', [Guard.isValidUser], (req, res, next) => {
-    OrderController.uncompletedOrders(req, res, next)
-})
-
 router.get('/orders/pending/:vendor_id', [Guard.isValidUser], (req, res, next) => {
     OrderController.currentPendingOrders(req, res, next)
 })
 
-router.get('/orders/uncompleted', [Guard.isValidAdmin], (req, res, next) => {
-    OrderController.uncompletedOrdersAdmin(req, res, next)
-})
-
-router.get('/orders/pending', [Guard.isValidAdmin], (req, res, next) => {
+router.get('/orders/pending/admin', [Guard.isValidAdmin], (req, res, next) => {
     OrderController.currentPendingOrdersAdmin(req, res, next)
 })
 

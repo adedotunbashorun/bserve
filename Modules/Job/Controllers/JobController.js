@@ -75,33 +75,10 @@ class JobController {
         }
     }
 
-    static async uncompletedOrders(){
-        try{
-
-            let orders = await Job.find({ $or: [{status : { $ne: 'completed'}},{ status: { $ne: 'accepted'}},{vendor_id: req.params.vendor_id} ]})
-            return res.status(201).json({ orders: orders })
-
-        }catch(error){
-            return res.json({ error: error, msg: error.message})
-        }
-    }
-
     static async currentPendingOrders(){
-        let today = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate()
         try{
 
-            let orders = await Job.find({ $or: [{status : { $ne: 'completed'}},{ status: { $ne: 'accepted'}},{createdAt: today},{vendor_id: req.params.vendor_id}]})
-            return res.status(201).json({ orders: orders })
-
-        }catch(error){
-            return res.json({ error: error, msg: error.message})
-        }
-    }
-
-    static async uncompletedOrdersAdmin(){
-        try{
-
-            let orders = await Job.find({ $or: [{status : { $ne: 'completed'}},{ status: { $ne: 'accepted'}} ]})
+            let orders = await Job.find({ $and: [{status : { $ne: 'completed'}},{ status: { $ne: 'accepted'}},{vendor_id: req.params.vendor_id}]}).sort('-createdAt');
             return res.status(201).json({ orders: orders })
 
         }catch(error){
@@ -110,10 +87,9 @@ class JobController {
     }
 
     static async currentPendingOrdersAdmin(){
-        let today = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate()
         try{
 
-            let orders = await Job.find({ $or: [{status : { $ne: 'completed'}},{ status: { $ne: 'accepted'}},{order_date: today} ]})
+            let orders = await Job.find({ $and: [{status : { $ne: 'completed'}},{ status: { $ne: 'accepted'}}]}).sort('-createdAt');
             return res.status(201).json({ orders: orders })
 
         }catch(error){
