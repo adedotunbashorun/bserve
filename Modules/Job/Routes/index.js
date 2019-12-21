@@ -25,7 +25,7 @@ router.get('/orders/pending/:vendor_id', [Guard.isValidUser], (req, res, next) =
     OrderController.currentPendingOrders(req, res, next)
 })
 
-router.get('/orders/pending/admin', [Guard.isValidAdmin], (req, res, next) => {
+router.get('/orders/admin/pending', [Guard.isValidAdmin], (req, res, next) => {
     OrderController.currentPendingOrdersAdmin(req, res, next)
 })
 
