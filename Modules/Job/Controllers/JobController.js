@@ -76,7 +76,7 @@ class JobController {
         }
     }
 
-    static async currentPendingOrders(){
+    static async currentPendingOrders(req, res, next){
         try{
 
             let orders = await Job.find({ $and: [{vendor_id: req.params.vendor_id},{status: 'waiting' }]}).sort('-createdAt').populate('client_id').populate('vendor_id');
@@ -87,7 +87,7 @@ class JobController {
         }
     }
 
-    static async currentPendingOrdersAdmin(){
+    static async currentPendingOrdersAdmin(req, res, next){
         try{
 
             let orders = await Job.find({ status: 'waiting'}).sort('-createdAt').populate('client_id').populate('vendor_id');
