@@ -76,7 +76,7 @@ class UserController {
     
     static getAllApprovedVendor(req, res, next) {
         try {
-            User.find({ deleted_at: null, online_status: true , approval_status: true, longitude:  { $gt: req.body.longitude - 0.3, $lt: req.body.longitude + 0.3}, latitude: { $gt: req.body.latitude - 0.3, $lt: req.body.latitude + 0.3} },null,{ sort: { 'createdAt': -1 } }).then(users => {                
+            User.find({ deleted_at: null, online_status: true , approval_status: true, longitude:  { $gt: req.body.longitude - 0.1, $lt: req.body.longitude + 0.1}, latitude: { $gt: req.body.latitude - 0.1, $lt: req.body.latitude + 0.1} },null,{ sort: { 'createdAt': -1 } }).then(users => {                
                 return res.status(201).json({ users: users })
             }).catch(err =>{
                 return res.json(error)
@@ -88,7 +88,7 @@ class UserController {
 
     static getAllServiceApprovedVendor(req, res, next) {
         try {
-            User.find({ service_id: req.body.service_id, deleted_at: null, online_status: true , approval_status: true, longitude:  { $gt: req.body.longitude - 0.3, $lt: req.body.longitude + 0.3}, latitude: { $gt: req.body.latitude - 0.3, $lt: req.body.latitude + 0.3} },null,{ sort: { 'createdAt': -1 } }).then(users => {                
+            User.find({ service_id: req.body.service_id, deleted_at: null, online_status: true , approval_status: true, longitude:  { $gt: req.body.longitude - 0.1, $lt: req.body.longitude + 0.1}, latitude: { $gt: req.body.latitude - 0.1, $lt: req.body.latitude + 0.1} },null,{ sort: { 'createdAt': -1 } }).then(users => {                
                 return res.status(201).json({ users: users })
             }).catch(err =>{
                 return res.json(error)
