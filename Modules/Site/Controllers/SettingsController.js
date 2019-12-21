@@ -8,12 +8,11 @@ class SystemSettingsController {
     static async create(req, res, next) {
         try {
             if(req.body.id !== ""){
-
+                console.log(2)
                 let settings =  await SystemSettings.findById(req.body.id)
                 settings.data = req.body
                 //settings.data.logo = (req.body.logo) ? File.Image(req.body.logo,"/images/settings/", req.body.app_name,'.png') : settings.data.logo
                 settings.save()
-                console.log(2)
                 Pusher.triggerNotification('notifications','settings',{settings,message:{msg: req.user + " updated settings."}},req,req.userId)
                 return res.status(201).json({ settings: settings, msg: 'Settings Successfully updated.' })
                     
