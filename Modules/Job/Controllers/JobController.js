@@ -47,7 +47,7 @@ class JobController {
 
     static async getAll(req, res, next) {
         try {
-            let orders = await Job.find({status: 'waiting'}, null, { sort: { 'createdAt': -1 } }).populate('client_id').populate('vendor_id')
+            let orders = await Job.find({}, null, { sort: { 'createdAt': -1 } }).populate('client_id').populate('vendor_id')
             return res.status(201).json({ orders: orders })
         } catch (err) {
             return res.status(500).json({ error: err, msg: err.message})
@@ -80,7 +80,6 @@ class JobController {
         try{
 
             let orders = await Job.find({ $and: [{vendor_id: req.params.vendor_id},{status: 'waiting' }]}).sort('-createdAt').populate('client_id').populate('vendor_id');
-            console.log(orders)
             return res.status(201).json({ orders: orders })
 
         }catch(error){
@@ -92,7 +91,6 @@ class JobController {
         try{
 
             let orders = await Job.find({ status: 'waiting'}).sort('-createdAt').populate('client_id').populate('vendor_id');
-            console.log(orders)
             return res.status(201).json({ orders: orders })
 
         }catch(error){
