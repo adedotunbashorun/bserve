@@ -18,12 +18,12 @@ class SystemSettingsController {
                 return res.status(201).json({ settings: settings, msg: 'Settings Successfully updated.' })
                     
             }else{
-
-                let settings = new SystemSettings()
-                settings.data = req.body
+                console.log(1)
+                let settings = new SystemSettings({
+                    data: req.body
+                })
                 //settings.data.image_url = (req.body.image) ? File.Image(req.body.image,"/images/class/", req.body.name,'.png') : ''
                 await settings.save()
-                console.log(1)
                 Pusher.triggerNotification('notifications','settings',{settings,message:{msg: req.user+" created settings."}},req, req.userId)
                 return res.status(201).json({ settings: settings, msg: 'Settings Successfully saved.' })
             }
