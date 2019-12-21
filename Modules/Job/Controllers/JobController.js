@@ -78,7 +78,7 @@ class JobController {
     static async currentPendingOrders(){
         try{
 
-            let orders = await Job.find({ $and: [{status : { $ne: 'completed'}},{ status: { $ne: 'accepted'}},{vendor_id: req.params.vendor_id}]}).sort('-createdAt');
+            let orders = await Job.find({ $and: [{vendor_id: req.params.vendor_id},{$or : [{status : { $ne: 'completed'}},{ status: { $ne: 'accepted'}}]}]}).sort('-createdAt');
             return res.status(201).json({ orders: orders })
 
         }catch(error){
@@ -89,7 +89,7 @@ class JobController {
     static async currentPendingOrdersAdmin(){
         try{
 
-            let orders = await Job.find({ $and: [{status : { $ne: 'completed'}},{ status: { $ne: 'accepted'}}]}).sort('-createdAt');
+            let orders = await Job.find({ $or: [{status : { $ne: 'completed'}},{ status: { $ne: 'accepted'}}]}).sort('-createdAt');
             return res.status(201).json({ orders: orders })
 
         }catch(error){
