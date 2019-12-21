@@ -13,7 +13,6 @@ const JobSchema = new Schema({
     destination_latitude: { type: String, default: '' },
     time: {type : Date, default: null},
     payment_type: { type: String, default:  null },
-    estimated_time: {type : String, default: null},
     estimated_amount: { type: String, default:  null },
     amount: { type: String, default:  null },
     status: { type: String, default: ''},

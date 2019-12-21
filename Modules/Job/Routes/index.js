@@ -9,6 +9,10 @@ router.get('/orders', [Guard.isValidUser], (req, res, next) => {
     OrderController.getAll(req, res, next)
 })
 
+router.get('/order/:id', [Guard.isValidUser], (req, res, next) => {
+    OrderController.getOrder(req, res, next)
+})
+
 router.post('/order', [Guard.isValidUser], (req, res, next) => {
     OrderController.create(req, res, next)
 })

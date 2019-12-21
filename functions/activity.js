@@ -5,6 +5,7 @@ const request = require('request')
 var nodemailer = require("nodemailer")
 var sgTransport = require("nodemailer-sendgrid-transport")
 var NodeGeocoder = require('node-geocoder')
+const Payment = require('../Modules/Site/Models/Payment')
 const config = require('../beauty.json')
 const { Expo } = require('expo-server-sdk')
 const expo = new Expo();
@@ -288,30 +289,30 @@ Activity.alertEmail = async (req) => {
     }
 }
 
-Activity.Transaction = async(req, res, type) => {
+Activity.Transaction = async (order) => {
     var options = {
         method: 'POST',
         json: true,
-        url: 'https://api.paystack.co/transaction/verify/' + req.body.reference,
+        url: 'https://api.paystack.co/transaction/verify/' + order.reference,
         headers: {
             'Authorization': 'Bearer ' + config.paystack_test_secret_key
         }
     }
-    request.get(options, (err, body) => {
-        if (err) return res.json(err)
-        data.transaction = body.body
+    let trans = await request.get(options, (err, body) => {
+        if (err) return err
         trans = new Payment()
-        trans.type = type
-        trans.reference = req.body.reference
-        trans.user_id = req.body.user_id
-        trans.status = body.body.data.status
+        trans.reference = order.reference
+        trans.order_id = order._id
+        trans.client_id = order.client_id
+        trans.vendor_id = order.vendor_id
+        trans.type = (parseInt(order.payment_option) === 1) ? "Online" : "Cash On Delivery"
+        trans.status = "success"
         trans.message = body.body.message
-        trans.fees = body.body.data.fees / 100
-        trans.fees_split = body.body.data.fees_split / 100
-        trans.amount = body.body.data.amount / 100
+        trans.amount = order.total_amount
         trans.save()
-        return result.transaction = trans
     })
+
+    return result.transaction = trans
 }
 
 Activity.handlePushTokens = (title = "Message received!",message, user_id = '') => {

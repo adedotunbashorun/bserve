@@ -63,12 +63,24 @@ class JobController {
         }
     }
 
+    static async getOrder(req, res, next) {
+        try {
+            let order = await Job.findById(req.params.id).populate('client_id').populate('vendor_id').populate('service_id').populate('service_category_id')
+            return res.status(201).json({ order: order })
+        } catch (err) {
+            return res.status(500).json({ error: err, msg: err.message})
+        }
+    }
+
     static async updateOrderStatus(req, res, next) {
         try {
             
             let order = await Job.findById(req.params.id)
             order.status = req.body.status
             order.save()
+            
+            if(req.body.status === 'completed') await Activity.Transaction(order);
+
             return res.status(201).json({ order: order, msg: 'order '+req.body.status })
 
         } catch (err) {
