@@ -11,10 +11,10 @@ class SystemSettingsController {
                 data: req.body
             }
             if(req.body._id !== ""){
-                
+
                 let settings =  await SystemSettings.findById(req.body.id)
                 setting.data = req.body
-                settings.data.logo = (req.body.logo) ? File.Image(req.body.logo,"/images/settings/", req.body.app_name,'.png') : settings.data.logo
+                //settings.data.logo = (req.body.logo) ? File.Image(req.body.logo,"/images/settings/", req.body.app_name,'.png') : settings.data.logo
                 settings.save()
                 Pusher.triggerNotification('notifications','settings',{settings,message:{msg: req.user + " updated settings."}},req,req.userId)
                 return res.status(201).json({ settings: settings, msg: 'Settings Successfully updated.' })
@@ -22,7 +22,7 @@ class SystemSettingsController {
             }else{
 
                 var settings = new SystemSettings(setting)
-                settings.data.image_url = (req.body.image) ? File.Image(req.body.image,"/images/class/", req.body.name,'.png') : ''
+                //settings.data.image_url = (req.body.image) ? File.Image(req.body.image,"/images/class/", req.body.name,'.png') : ''
                 await settings.save()
                 Pusher.triggerNotification('notifications','settings',{settings,message:{msg: req.user+" created settings."}},req, req.userId)
                 return res.status(201).json({ settings: settings, msg: 'Settings Successfully saved.' })
