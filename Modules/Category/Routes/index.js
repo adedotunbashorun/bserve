@@ -13,7 +13,7 @@ router.patch('/category/:id', [Guard.isValidAdmin], (req, res, next) => {
     CategoryController.update(req, res, next)
 })
 
-router.get('/categories', [Guard.isValidUser], (req, res, next) => {
+router.get('/categories', (req, res, next) => {
     CategoryController.getAll(req, res, next)
 })
 
