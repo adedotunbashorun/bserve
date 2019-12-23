@@ -116,7 +116,8 @@ Activity.Email = function(data, subject, message) {
             }
         })
     } catch (error) {
-        return res.status(401).json({ "success": false, "message": error })
+        console.log(error);
+        // throw new Error(error.message)
     }
 }
 
