@@ -27,7 +27,7 @@ class UserController {
                     user.longitude = (req.body.longitude) ? req.body.longitude : user.longitude                    
                     user.latitude = (req.body.latitude) ? req.body.latitude : user.latitude
                     user.service_id = (req.body.service_id) ? req.body.service_id : user.service_id
-                    // user.service_category_id = (req.body.service_category_id) ? req.body.service_category_id : user.service_category_id
+                    user.service_category_id = (req.body.service_category_id) ? req.body.service_category_id : user.service_category_id
                     user.profile_image = (req.body.profile_image) ? File.Image(req.body.profile_image,"/images/profile/", user.last_name,'.png') : ''
                     user.save()              
                     if(user.address != '' || user.address != null){        
@@ -36,7 +36,7 @@ class UserController {
                     Activity.Email(user, 'Profile Update', Activity.html('<p style="color: #000">Hello ' + user.first_name + ' ' + user.last_name + ', Your profile has been updated succesfully.</p>'))
                     Activity.activity_log(req, user._id, 'Profile Updated Successfully')
                     user = user.toAuthJSON()                    
-                    Pusher.triggerNotification('notifications','users',{ user, message: {msg: user.last_name+" Just updated account details."}},req)
+                    Pusher.triggerNotification('notifications','user_updated',user,req)
                     return res.status(201).json({
                         'user': user,
                         'msg': user.first_name +
