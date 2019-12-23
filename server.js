@@ -92,6 +92,8 @@ app.use('/api', notificationRoute)
 app.use('/api', errorsRoute)
 app.use('/api', orderRoutes)
 
+app.use('/', siteRoutes)
+
 //set static folder
 // app.use(express.static(path.join(__dirname, '/dist')))
 
