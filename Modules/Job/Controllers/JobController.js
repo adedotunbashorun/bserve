@@ -101,6 +101,18 @@ class JobController {
         }
     }
 
+
+    static async currentPendingOrder(req, res, next){
+        try{
+
+            let order = await Job.findOne({ $and: [{[req.params.title]: req.params.id},{status: 'waiting' }]}).sort('-createdAt').populate('client_id').populate('vendor_id').populate('service_id').populate('service_category_id');
+            return res.status(201).json({ order: order })
+
+        }catch(error){
+            return res.json({ error: error, msg: error.message})
+        }
+    }
+
     static async currentPendingOrdersAdmin(req, res, next){
         try{
 
