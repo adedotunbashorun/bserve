@@ -13,7 +13,7 @@ class JobController {
 
             const order = new Job(req.body);
             order.estimated_time = sub_cat.estimated_time;
-            order.estimated_amount = sub_cat.prependOnceListener;
+            order.estimated_amount = sub_cat.estimated_amount;
             await order.save();
 
             // await Activity.Transaction(order)

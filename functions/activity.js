@@ -276,7 +276,9 @@ Activity.activity_log = async(req, user_id, description) => {
         logs.user_id = user_id
         logs.description = description
         logs.ip_address = req.header('x-forwarded-for') || req.connection.remoteAddress
-        return logs.save()
+        await logs.save()
+
+        return;
     }
 }
 
