@@ -25,8 +25,8 @@ const UserSchema = new Schema({
     address: { type: String, default: '' },
     longitude: { type: String, default: '' },
     latitude: { type: String, default: '' },
-    online_status : { type: String, default: false },
-    approval_status : { type: String, default: false },
+    online_status : { type: Boolean, default: false },
+    approval_status : { type: Boolean, default: false },
     brief : { type: String, default: '' },
     email: {
         type: String,
