@@ -80,7 +80,7 @@ class JobController {
             order.save()
             
             if(req.body.status === 'completed') await Activity.Transaction(order);
-
+            Pusher.triggerNotification('notifications','orders',{ order, message: {msg: `order ${order.status} notification.`}},req, req.userId)
             return res.status(201).json({ order: order, msg: 'order '+req.body.status })
 
         } catch (err) {
@@ -103,6 +103,17 @@ class JobController {
         try{
 
             let orders = await Job.find({ status: 'waiting'}).sort('-createdAt').populate('client_id').populate('vendor_id').populate('service_id').populate('service_category_id');
+            return res.status(201).json({ orders: orders })
+
+        }catch(error){
+            return res.json({ error: error, msg: error.message})
+        }
+    }
+
+    static async OrdersByType(req, res, next){
+        try{
+
+            let orders = await Job.find({ status: req.params.type}).sort('-createdAt').populate('client_id').populate('vendor_id').populate('service_id').populate('service_category_id');
             return res.status(201).json({ orders: orders })
 
         }catch(error){

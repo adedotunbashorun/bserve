@@ -33,4 +33,8 @@ router.get('/orders/admin/pending/all', [Guard.isValidAdmin], (req, res, next) =
     OrderController.currentPendingOrdersAdmin(req, res, next)
 })
 
+router.get('/orders/:type', [Guard.isValidAdmin], (req, res, next) => {
+    OrderController.OrdersByType(req, res, next)
+})
+
 module.exports = router
