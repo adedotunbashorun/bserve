@@ -93,9 +93,9 @@ class AuthenticationController{
     static async toggleUserOnlineStatus(req, res, next) {
         try{
             let user = await User.findOne({ _id: req.params.id });
-            user.online_status =  (user.online_status === 'true') ? 'false' : 'true'
+            user.online_status =  (user.online_status === true) ? false : true
             user.save()
-            if(user.online_status === 'false') {
+            if(user.online_status === false) {
                 return res.status(201).json({msg:'user mode set to offline', user: user})
             }
             return res.status(201).json({msg:'user mode set to online', user: user});
