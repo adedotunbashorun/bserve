@@ -12,7 +12,7 @@ class Pusher{
         this.pushers = pusher_notifiction               
     }
 
-    static triggerNotification(notifications = 'notifications', type, data,req,id) {
+    static triggerNotification(notifications = 'notifications', type, data,req) {
         if(req.headers['x-socket-id']){
             pusher_notifiction.trigger(notifications, type, data, req.headers['x-socket-id'])
             return this.saveNotification(notifications = 'notifications', type, data,req)  

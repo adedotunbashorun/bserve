@@ -36,7 +36,7 @@ class UserController {
                     Activity.Email(user, 'Profile Update', Activity.html('<p style="color: #000">Hello ' + user.first_name + ' ' + user.last_name + ', Your profile has been updated succesfully.</p>'))
                     Activity.activity_log(req, user._id, 'Profile Updated Successfully')
                     user = user.toAuthJSON()                    
-                    Pusher.triggerNotification('notifications','users',{ user, message: {msg: user.last_name+" Just updated account details."}},req, '')
+                    Pusher.triggerNotification('notifications','users',{ user, message: {msg: user.last_name+" Just updated account details."}},req)
                     return res.status(201).json({
                         'user': user,
                         'msg': user.first_name +
