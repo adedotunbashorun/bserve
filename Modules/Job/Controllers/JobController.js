@@ -30,7 +30,7 @@ class JobController {
             return res.status(201).json({ msg: 'New Order Received Successfully, awaiting vendor approval.', order: order })
             
         }catch(error){
-            console.log(error.message)
+            console.log(error)
             return res.json({ error: error, msg: error.message})
         }
     }
