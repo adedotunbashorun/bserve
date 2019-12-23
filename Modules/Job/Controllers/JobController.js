@@ -72,11 +72,13 @@ class JobController {
         }
     }
 
-    static async updateOrderStatus(req, res, next) {
+    static async update(req, res, next) {
         try {
             
             let order = await Job.findById(req.params.id)
-            order.status = req.body.status
+            order.status = (req.body.status) ? req.body.status : order.status
+            order.amount = (req.body.amount) ? req.body.amount : order.amount
+            order.reference = (req.body.reference) ? req.body.reference : order.reference
             order.save()
             
             if(req.body.status === 'completed') await Activity.Transaction(order);

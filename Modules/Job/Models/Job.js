@@ -15,6 +15,7 @@ const JobSchema = new Schema({
     payment_type: { type: String, default:  null },
     estimated_amount: { type: String, default:  null },
     amount: { type: String, default:  null },
+    reference: { type: String, default:  null },
     status: { type: String, default: ''},
     deleted_at: { type: String, default:  null },
 }, { timestamps: true })
