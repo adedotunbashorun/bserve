@@ -10,7 +10,10 @@ class JobController {
     static async create(req, res, next) {
         try {
             const sub_cat = await subCategory.findOne({ _id: req.body.service_category_id});
-
+            const exist = await Job.findOne({ $and: [{vendor_id: req.body.vendor_id},{client_id: req.body.client_id},{status: 'waiting' }]});
+            if(exist) {
+                throw new Error('you have an existing order, please contact vendor to resolve or cancle.');
+            }
             const order = new Job(req.body);
             order.estimated_time = sub_cat.estimated_time;
             order.estimated_amount = sub_cat.estimated_amount;
