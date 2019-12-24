@@ -42,9 +42,11 @@ class JobController {
     static async orderNotification (id,subject,message, sms='') {
     
         let user = await User.findOne({id: id})
+
+        console.dir(user);
     
-        if (message !== '') Activity.Email(user,subject,message);
-        else Activity.Sms(user.phone,sms)
+        if (message !== '') await Activity.Email(user,subject,message);
+        else await Activity.Sms(user.phone,sms)
         return;
     }
 

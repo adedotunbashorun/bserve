@@ -76,7 +76,6 @@ router.post('/contact/create', (req, res, next) => {
 })
 
 router.post('/notifications/token', (req, res) => {
-    console.log(req.body);
     Activity.saveToken(req.body.token.value);
     console.log(`Received push token, ${req.body.token.value}`);
     return res.send(`Received push token, ${req.body.token.value}`);

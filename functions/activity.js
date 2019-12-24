@@ -66,7 +66,7 @@ Activity.makeid = function(length) {
     return text
 }
 
-Activity.Sms = (to, message) => {
+Activity.Sms = async (to, message) => {
     
     const AfricasTalking = require('africastalking')(africastalking);
 
@@ -97,16 +97,17 @@ Activity.Base64_encode = function(file) {
 }
 
 
-Activity.Email = function(data, subject, message) {
+Activity.Email = async (data, subject, message) => {
+    console.log(data);
     try {
-        var email = {
+        var options = {
             from: config.app_name,
             to: (data.email) ? data.email : config.email,
             subject: subject,
             html: message
         }
 
-        client.sendMail(email, function(err, info) {
+        client.sendMail(options, function(err, info) {
             if (err) {
                 console.log(err)
             } else {
