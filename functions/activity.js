@@ -26,8 +26,6 @@ let client = nodemailer.createTransport(sgTransport(options))
 var fs = require('fs')
 const Activity = {}
 var result = {}
-var trans
-var data = {}
 
 
 Activity.getDecode= function(user = '',address){
@@ -72,7 +70,7 @@ Activity.Sms = (to, message) => {
     
     const AfricasTalking = require('africastalking')(africastalking);
 
-    sms = AfricasTalking.SMS
+    const sms = AfricasTalking.SMS
 
     // Use the service
     const options = {

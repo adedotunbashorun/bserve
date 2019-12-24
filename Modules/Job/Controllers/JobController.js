@@ -12,7 +12,7 @@ class JobController {
             const sub_cat = await subCategory.findOne({ _id: req.body.service_category_id});
             const exist = await Job.findOne({ $and: [{vendor_id: req.body.vendor_id},{client_id: req.body.client_id},{status: 'waiting' }]});
             if(exist) {
-                throw new Error('you have an existing order, please contact vendor to resolve or cancle.');
+                throw new Error('you have an existing order, please contact vendor to resolve or cancel.');
             }
             const order = new Job(req.body);
             order.estimated_time = sub_cat.estimated_time;
@@ -85,7 +85,7 @@ class JobController {
             order.save()
             
             if(req.body.status === 'completed') await Activity.Transaction(order);
-            
+
             Pusher.triggerNotification('notifications','orders',{ order, message: {msg: `order ${order.status} notification.`}},req, req.userId)
             return res.status(201).json({ order: order, msg: 'order '+req.body.status })
 

@@ -21,7 +21,7 @@ router.get('/orders/:title/:id', [Guard.isValidUser], (req, res, next) => {
     OrderController.getUserOrder(req, res, next)
 })
 
-router.patch('/orders/update/:id', [Guard.isValidUser], (req, res, next) => {
+router.patch('/order/update/:id', [Guard.isValidUser], (req, res, next) => {
     OrderController.update(req, res, next)
 })
 
