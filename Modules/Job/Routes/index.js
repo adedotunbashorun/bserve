@@ -29,7 +29,7 @@ router.get('/order/:title/:id', [Guard.isValidUser], (req, res, next) => {
     OrderController.currentPendingOrder(req, res, next)
 })
 
-router.get('/order/:title/:id', [Guard.isValidUser], (req, res, next) => {
+router.get('/order/current/:title/:id', [Guard.isValidUser], (req, res, next) => {
     OrderController.currentOrder(req, res, next)
 })
 
