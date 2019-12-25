@@ -354,7 +354,6 @@ Activity.handlePushTokens = (title = "Message received!",message, user_id = '') 
       for (let chunk of chunks) {
         try {
           let receipts = await expo.sendPushNotificationsAsync(chunk);
-          console.log(receipts);
         } catch (error) {
           console.error(error);
         }

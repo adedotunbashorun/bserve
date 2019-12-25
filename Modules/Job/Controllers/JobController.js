@@ -33,8 +33,7 @@ class JobController {
             return res.status(201).json({ msg: 'New Order Received Successfully, awaiting vendor approval.', order: order })
             
         }catch(error){
-            console.log(error)
-            return res.json({ error: error, msg: error.message})
+            return res.status(501).json({ error: error, msg: error.message})
         }
     }
 
@@ -112,6 +111,17 @@ class JobController {
         try{
 
             let order = await Job.findOne({ $and: [{[req.params.title]: req.params.id},{status: 'waiting' }]}).sort('-createdAt').populate('client_id').populate('vendor_id').populate('service_id').populate('service_category_id');
+            return res.status(201).json({ order: order })
+
+        }catch(error){
+            return res.json({ error: error, msg: error.message})
+        }
+    }
+
+    static async currentOrder(req, res, next){
+        try{
+
+            let order = await Job.findOne({ $and: [{[req.params.title]: req.params.id}]}).sort('-createdAt').populate('client_id').populate('vendor_id').populate('service_id').populate('service_category_id');
             return res.status(201).json({ order: order })
 
         }catch(error){
