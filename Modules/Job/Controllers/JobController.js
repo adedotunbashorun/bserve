@@ -86,7 +86,7 @@ class JobController {
             if(req.body.status === 'completed') await Activity.Transaction(order);
 
             Pusher.triggerNotification('notifications','orders',{ order, message: {msg: `order ${order.status} notification.`}},req, req.userId)
-            return res.status(201).json({ order: order, msg: 'order '+req.body.status })
+            return res.status(201).json({ order: order, msg: 'order '+(req.body.status) ? req.body.status : "updated" })
 
         } catch (err) {
             return res.status(500).json({ error: err, msg: err.message})
