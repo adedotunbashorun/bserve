@@ -16,7 +16,7 @@ const JobSchema = new Schema({
     estimated_amount: { type: String, default:  null },
     amount: { type: String, default:  null },
     reference: { type: String, default:  null },
-    status: { type: String, default: ''},
+    status: { type: String, default: 'waiting'},
     deleted_at: { type: String, default:  null },
 }, { timestamps: true })
 

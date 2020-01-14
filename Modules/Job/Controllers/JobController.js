@@ -19,8 +19,6 @@ class JobController {
             order.estimated_amount = sub_cat.estimated_amount;
             await order.save();
 
-            // await Activity.Transaction(order)
-
             await this.orderNotification(order.vendor_id, 'New Order Received',Activity.html('<p style="color: #000">Hello,\r\n You have received a new order.</p>'))
 
             await this.orderNotification(order.client_id, 'New Order Sent',Activity.html('<p style="color: #000">Hello, \r\nYour order has been received.</p>'))
